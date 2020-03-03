@@ -1,0 +1,33 @@
+{
+  "variables": {
+    "gcp_project_id": ""
+  },
+  "builders": [
+    {
+      "type": "googlecompute",
+      "project_id": "{{user `gcp_project_id`}}",
+      "source_image_family": "debian-10",
+      "machine_type": "n2-standard-2",
+      "ssh_username": "packer",
+      "image_name": "debian-xfce4-{{isotime | clean_resource_name}}",
+      "zone": "europe-west2-a",
+      "disk_type": "pd-ssd",
+      "disable_default_service_account": true,
+      "metadata": {
+        "enable-oslogin": "false"
+      }
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "script": "chrome-remote-desktop.sh",
+      "execute_command": "echo 'packer' | sudo -S sh -c '{{ .Vars }} {{ .Path }}'"
+    },
+    {
+      "type": "shell",
+      "script": "xfce4.sh",
+      "execute_command": "echo 'packer' | sudo -S sh -c '{{ .Vars }} {{ .Path }}'"
+    }
+  ]
+}
