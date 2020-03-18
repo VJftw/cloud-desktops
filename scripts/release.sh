@@ -1,5 +1,7 @@
 #!/bin/bash -e
 
+export GOOGLE_APPLICATION_CREDENTIALS="${GITHUB_WORKSPACE}.google-application-credentials"
+
 gcp_project="vjftw-images"
 
 target="$1"
@@ -14,6 +16,7 @@ export PATH="${HOME}/.local/bin/:${PATH}"
 image_name=$(packer -machine-readable build -var "gcp_project_id=${gcp_project}" "${target_file}.json" | tee >(cat 1>&2) | awk -F, '$0 ~/artifact,0,id/ {print $6}')
 
 echo "-> making ${image_name} public"
+gcloud auth activate-service-account "${GOOGLE_APPLICATION_CREDENTIALS}"
 gcloud compute images add-iam-policy-binding "${image_name}" \
     --project="${gcp_project}" \
     --member='allAuthenticatedUsers' \

@@ -25,4 +25,4 @@ jobs:
         run: echo "${GOOGLE_APPLICATION_CREDENTIALS_contents}" > "${GITHUB_WORKSPACE}.google-application-credentials"
 
       - name: run packer build
-        run: export GOOGLE_APPLICATION_CREDENTIALS="${GITHUB_WORKSPACE}.google-application-credentials" && scripts/release.sh "${{ matrix.flavour }}"
+        run: scripts/release.sh "${{ matrix.flavour }}"
