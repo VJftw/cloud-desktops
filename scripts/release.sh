@@ -15,5 +15,6 @@ image_name=$(packer -machine-readable build -var "gcp_project_id=${gcp_project}"
 
 echo "-> making ${image_name} public"
 gcloud compute images add-iam-policy-binding "${image_name}" \
+    --project="${gcp_project}" \
     --member='allAuthenticatedUsers' \
     --role='roles/compute.imageUser'

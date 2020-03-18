@@ -2,6 +2,16 @@
 
 This repository presents various cloud virtual desktops suitable for shared or single use in [Google Cloud Platform](https://cloud.google.com/) via [OS Login](https://cloud.google.com/compute/docs/oslogin) and [Chrome Remote Desktop](https://remotedesktop.google.com/).
 
+
+## Quick Start
+
+If you'd like to try this out without building your own Packer images and you **trust** me, feel free to use my public images in the `vjftw-images` project. e.g.
+
+```
+gcloud compute instances create my-debian-ws \
+    --image debian-xfce4-20200318 --image-project vjftw-images
+```
+
 ### Pre-requisites
 
  * [Packer](https://packer.io/)
