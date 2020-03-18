@@ -5,19 +5,24 @@ on:
       - master
 jobs:
   build:
-    name: Release Debian XFCE4
+    strategy:
+    matrix:
+      flavour:
+        - flavours/debian/xfce4
+        - flavours/debian/kali/xfce4
+    name: Release ${{ matrix.flavour }}
     runs-on: ubuntu-latest
     steps:
-      - name: Check out code
+      - name: check out code
         uses: actions/checkout@v2
 
-      - name: Install Packer
+      - name: install packer
         run: scripts/ci-install-packer.sh
 
-      - name: Write google application credentials file
+      - name: write google application credentials file
         env:
           GOOGLE_APPLICATION_CREDENTIALS_contents: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_FILE_contents }}
         run: echo "${GOOGLE_APPLICATION_CREDENTIALS_contents}" > "${GITHUB_WORKSPACE}.google-application-credentials"
 
-      - name: Build
-        run: export GOOGLE_APPLICATION_CREDENTIALS="${GITHUB_WORKSPACE}.google-application-credentials" && scripts/release.sh "flavours/debian/xfce4.json"
+      - name: run packer build
+        run: export GOOGLE_APPLICATION_CREDENTIALS="${GITHUB_WORKSPACE}.google-application-credentials" && scripts/release.sh "${{ matrix.flavour }}"

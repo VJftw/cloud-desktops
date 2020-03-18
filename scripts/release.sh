@@ -11,4 +11,4 @@ cd "${target_dir}"
 
 export PATH="${HOME}/.local/bin/:${PATH}"
 
-packer build -var "gcp_project_id=${gcp_project}" "${target_file}"
+packer -machine-readable build -var "gcp_project_id=${gcp_project}" "${target_file}.json"
