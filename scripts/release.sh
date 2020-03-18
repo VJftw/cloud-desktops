@@ -11,4 +11,9 @@ cd "flavours/${target_dir}"
 
 export PATH="${HOME}/.local/bin/:${PATH}"
 
-packer -machine-readable build -var "gcp_project_id=${gcp_project}" "${target_file}.json"
+image_name=$(packer -machine-readable build -var "gcp_project_id=${gcp_project}" "${target_file}.json" | tee >(cat 1>&2) | awk -F, '$0 ~/artifact,0,id/ {print $6}')
+
+echo "-> making ${image_name} public"
+gcloud compute images add-iam-policy-binding "${image_name}" \
+    --member='allAuthenticatedUsers' \
+    --role='roles/compute.imageUser'

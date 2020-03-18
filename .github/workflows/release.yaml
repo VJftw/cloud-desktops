@@ -10,7 +10,7 @@ jobs:
         flavour:
           - debian/xfce4
           - debian/kali/xfce4
-    name: Release ${{ matrix.flavour }}
+    name: ${{ matrix.flavour }}
     runs-on: ubuntu-latest
     steps:
       - name: check out code
