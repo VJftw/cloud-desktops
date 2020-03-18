@@ -7,7 +7,7 @@ target="$1"
 target_dir=$(dirname "${target}")
 target_file=$(basename "${target}")
 
-cd "${target_dir}"
+cd "flavours/${target_dir}"
 
 export PATH="${HOME}/.local/bin/:${PATH}"
 

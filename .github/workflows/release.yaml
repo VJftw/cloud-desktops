@@ -8,8 +8,8 @@ jobs:
     strategy:
       matrix:
         flavour:
-          - flavours/debian/xfce4
-          - flavours/debian/kali/xfce4
+          - debian/xfce4
+          - debian/kali/xfce4
     name: Release ${{ matrix.flavour }}
     runs-on: ubuntu-latest
     steps:
