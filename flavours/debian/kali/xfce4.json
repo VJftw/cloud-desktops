@@ -9,7 +9,7 @@
       "source_image_family": "debian-10",
       "machine_type": "n2-standard-2",
       "ssh_username": "packer",
-      "image_name": "kali-xfce4-{{isotime | clean_resource_name}}",
+      "image_name": "kali-xfce4-{{isotime \"20060102\"}}",
       "zone": "europe-west2-a",
       "disk_type": "pd-ssd",
       "disable_default_service_account": true,
