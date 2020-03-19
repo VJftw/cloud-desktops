@@ -9,6 +9,7 @@ If you'd like to try this out without building your own Packer images and you **
 
 ```
 gcloud compute instances create my-debian-ws \
+    --metadata enable-oslogin=true \
     --image debian-xfce4-20200318 --image-project vjftw-images
 ```
 
