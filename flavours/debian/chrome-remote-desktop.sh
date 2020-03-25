@@ -1,7 +1,8 @@
 #!/bin/bash -xe
 
+# Install basic cloud debian tools
 apt-get update
-apt-get -y install wget
+apt-get -y install wget cloud-utils
 
 # Google Chrome Remote Desktop
 wget https://dl.google.com/linux/direct/chrome-remote-desktop_current_amd64.deb
