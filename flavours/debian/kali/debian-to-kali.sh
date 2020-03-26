@@ -21,12 +21,17 @@ apt-get -y dist-upgrade
 apt-get -y autoremove --purge
 apt-get -y install kali-linux
 
+# TODO (@northdpole): add wordlists and scripts for building better kali
 apt-get -y install \
   kali-linux-top10 \
   exploitdb \
   kali-defaults \
   kali-root-login \
   desktop-base \
+  kali-linux-web \
+  kali-linux-forensic \
+  kali-linux-pwtools \
+  cherrytree \
   xfce4 xfce4-places-plugin xfce4-goodies
 
 # Set default XFCE appearance
