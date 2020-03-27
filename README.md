@@ -8,9 +8,14 @@ This repository presents various cloud virtual desktops suitable for shared or s
 If you'd like to try this out without building your own Packer images and you **trust** me, feel free to use my public images in the `vjftw-images` project. e.g.
 
 ```
-gcloud compute instances create my-debian-ws \
+gcloud compute instances create debian-ws \
+    --machine-type=e2-standard-2 \
+    --boot-disk-size=50GB \
+    --boot-disk-type=pd-ssd \
     --metadata enable-oslogin=true \
-    --image debian-xfce4-20200318 --image-project vjftw-images
+    --no-service-account \
+    --no-scopes \
+    --image debian-xfce4-20200327 --image-project vjftw-images
 ```
 
 ### Pre-requisites

@@ -1,23 +1,45 @@
 #!/bin/bash -e
 
-export GOOGLE_APPLICATION_CREDENTIALS="${GITHUB_WORKSPACE}.google-application-credentials"
+github_api_version="application/vnd.github.v3+json"
+github_owner="VJftw"
+github_repo="cloud-desktops"
 
+
+export GOOGLE_APPLICATION_CREDENTIALS="${GITHUB_WORKSPACE}.google-application-credentials"
 gcp_project="vjftw-images"
 
-target="$1"
+version=$(git describe --always)
 
-target_dir=$(dirname "${target}")
-target_file=$(basename "${target}")
-
-cd "flavours/${target_dir}"
-
-export PATH="${HOME}/.local/bin/:${PATH}"
-
-image_name=$(packer -machine-readable build -var "gcp_project_id=${gcp_project}" "${target_file}.json" | tee >(cat 1>&2) | awk -F, '$0 ~/artifact,0,id/ {print $6}')
-
-echo "-> making ${image_name} public"
+echo "-> finding built images for this version..."
 gcloud auth activate-service-account --key-file "${GOOGLE_APPLICATION_CREDENTIALS}"
-gcloud compute images add-iam-policy-binding "${image_name}" \
-    --project="${gcp_project}" \
-    --member='allAuthenticatedUsers' \
-    --role='roles/compute.imageUser'
+released_images=$(gcloud compute images list --project="${gcp_project}" \
+    --format="value(NAME)" \
+    --filter="name=${version}")
+
+post_release_json=$(cat <<EOF
+{
+  "tag_name": "${version}",
+  "target_commitish": "master",
+  "name": "${version}",
+  "body": "${release_images}",
+  "draft": false,
+  "prerelease": false
+}
+EOF
+)
+
+release_resp=$(curl \
+  --header "Accept: ${github_api_version}" \
+  --header "Authorization: token ${GITHUB_TOKEN}" \
+  --silent \
+  --request POST \
+  --data "${post_release_json}" \
+  "https://api.github.com/repos/${github_owner}/${github_repo}/releases")
+
+release_id=$(echo "${release_resp}" | jq '.id')
+if [ -z "${release_id}" ] || [ "${release_id}" == "null" ]; then
+  echo "!> could not find release id in response"
+  echo "${release_resp}"
+  exit 1
+fi
+echo "-> created release ${release_id}"

@@ -25,4 +25,16 @@ jobs:
         run: echo "${GOOGLE_APPLICATION_CREDENTIALS_contents}" > "${GITHUB_WORKSPACE}.google-application-credentials"
 
       - name: run packer build
-        run: scripts/release.sh "${{ matrix.flavour }}"
+        run: scripts/build.sh "${{ matrix.flavour }}"
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: check out code
+        uses: actions/checkout@v2
+      - name: write google application credentials file
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS_contents: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_FILE_contents }}
+        run: echo "${GOOGLE_APPLICATION_CREDENTIALS_contents}" > "${GITHUB_WORKSPACE}.google-application-credentials"
+      - name: publish GitHub release
+        run: scripts/release.sh
