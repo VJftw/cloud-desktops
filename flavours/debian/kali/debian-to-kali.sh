@@ -29,7 +29,7 @@ apt-get -y install \
   kali-root-login \
   desktop-base \
   kali-linux-web \
-  kali-linux-forensic \
+  kali-linux-forensics \
   kali-linux-pwtools \
   cherrytree \
   xfce4 xfce4-places-plugin xfce4-goodies
