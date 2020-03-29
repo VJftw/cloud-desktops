@@ -37,4 +37,6 @@ jobs:
           GOOGLE_APPLICATION_CREDENTIALS_contents: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_FILE_contents }}
         run: echo "${GOOGLE_APPLICATION_CREDENTIALS_contents}" > "${GITHUB_WORKSPACE}.google-application-credentials"
       - name: publish GitHub release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: scripts/release.sh
