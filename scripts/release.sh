@@ -14,14 +14,14 @@ echo "-> finding built images for this version..."
 gcloud auth activate-service-account --key-file "${GOOGLE_APPLICATION_CREDENTIALS}"
 released_images=$(gcloud compute images list --project="${gcp_project}" \
     --format="value(NAME)" \
-    --filter="name=${version}")
+    --filter="name=${version}" | awk '{printf "%s\\n", $0}')
 
 post_release_json=$(cat <<EOF
 {
   "tag_name": "${version}",
   "target_commitish": "master",
   "name": "${version}",
-  "body": "${release_images}",
+  "body": "${released_images}",
   "draft": false,
   "prerelease": false
 }
