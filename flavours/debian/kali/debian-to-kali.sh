@@ -19,20 +19,18 @@ apt-get update
 apt-get -y upgrade
 apt-get -y dist-upgrade
 apt-get -y autoremove --purge
-apt-get -y install kali-linux
+apt-get -y install kali-linux-core
 
 # TODO (@northdpole): add wordlists and scripts for building better kali
 apt-get -y install \
-  kali-linux-top10 \
+  kali-linux-default \
+  kali-desktop-xfce \
+  kali-tools-top10 \
+  kali-tools-web \
+  kali-tools-forensics \
+  kali-tools-passwords \
   exploitdb \
-  kali-defaults \
-  kali-root-login \
-  desktop-base \
-  kali-linux-web \
-  kali-linux-forensics \
-  kali-linux-pwtools \
-  cherrytree \
-  xfce4 xfce4-places-plugin xfce4-goodies
+  cherrytree
 
 # Set default XFCE appearance
 sed -i 's#<property name="ThemeName".*#<property name="ThemeName" type="string" value="Kali-Dark"/>#' /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml
