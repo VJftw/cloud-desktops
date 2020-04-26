@@ -42,3 +42,8 @@ systemctl disable lightdm.service
 
 apt-get -y autoremove --purge
 apt-get clean
+
+# Fix Polkit Policy ("Authentication is required to create a color managed device")
+sed -i \
+    's#<allow_inactive>no</allow_inactive>#<allow_inactive>yes</allow_inactive>#g' \
+    /usr/share/polkit-1/actions/org.freedesktop.color.policy
