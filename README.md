@@ -2,6 +2,8 @@
 
 This repository presents various cloud virtual desktops suitable for shared or single use in [Google Cloud Platform](https://cloud.google.com/) via [OS Login](https://cloud.google.com/compute/docs/oslogin) and [Chrome Remote Desktop](https://remotedesktop.google.com/).
 
+![Release](https://github.com/VJftw/cloud-desktops/workflows/Release/badge.svg)
+
 
 ## Quick Start
 
