@@ -1,6 +1,7 @@
 #!/bin/bash -e
 
 export DEBIAN_FRONTEND=noninteractive
+echo 'DPkg::options { "--force-confdef"; };' >> /etc/apt/apt.conf
 
 apt-get update
 apt-get install -y dirmngr
