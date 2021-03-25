@@ -25,7 +25,7 @@ apt-get -y install kali-linux-core
 # TODO (@northdpole): add wordlists and scripts for building better kali
 apt-get -y install \
   kali-linux-default \
-  kali-desktop-xfce \
+  kali-desktop-xfce dbus-x11 \
   kali-tools-top10 \
   kali-tools-web \
   kali-tools-forensics \
