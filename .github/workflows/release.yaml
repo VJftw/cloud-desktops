@@ -50,7 +50,7 @@ jobs:
 
       - name: Compute the release tag
         run: |
-          echo "release_tag=\"$(./scripts/version.sh)\"" >> $GITHUB_ENV
+          echo "release_tag=$(./scripts/version.sh)" >> $GITHUB_ENV
 
       - name: Release
         uses: softprops/action-gh-release@v1
