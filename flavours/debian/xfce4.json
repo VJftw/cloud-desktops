@@ -10,7 +10,7 @@
       "source_image_family": "debian-10",
       "machine_type": "n2-standard-2",
       "ssh_username": "packer",
-      "image_name": "debian-xfce4-{{isotime \"20060102\"}}{{user `version_suffix`}}",
+      "image_name": "debian-xfce4-{{user `version_suffix`}}",
       "zone": "europe-west2-a",
       "disk_type": "pd-ssd",
       "disable_default_service_account": true,

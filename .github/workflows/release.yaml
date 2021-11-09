@@ -23,24 +23,40 @@ jobs:
       - name: install packer
         run: scripts/ci-install-packer.sh
 
-      - name: write google application credentials file
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS_contents: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_FILE_contents }}
-        run: echo "${GOOGLE_APPLICATION_CREDENTIALS_contents}" > "${GITHUB_WORKSPACE}.google-application-credentials"
+      - name: Setup GCP credentials
+        uses: google-github-actions/setup-gcloud@master
+        with: 
+          service_account_key: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_FILE_contents }}
+          export_default_credentials: true
 
       - name: run packer build
         run: scripts/build.sh "${{ matrix.flavour }}"
+
   publish:
     needs: build
     runs-on: ubuntu-latest
     steps:
       - name: check out code
         uses: actions/checkout@v2
-      - name: write google application credentials file
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS_contents: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_FILE_contents }}
-        run: echo "${GOOGLE_APPLICATION_CREDENTIALS_contents}" > "${GITHUB_WORKSPACE}.google-application-credentials"
-      - name: publish GitHub release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: scripts/release.sh
+
+      - name: Setup GCP credentials
+        uses: google-github-actions/setup-gcloud@master
+        with: 
+          service_account_key: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_FILE_contents }}
+          export_default_credentials: true
+
+      - name: Generate Changelog
+        run: ./scripts/release-body.sh ${{ github.workspace }}-RELEASE_BODY.txt
+
+      - name: Compute the release tag
+        run: |
+          echo "release_tag=\"$(./scripts/version.sh)\"" >> $GITHUB_ENV
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          body_path: ${{ github.workspace }}-RELEASE_BODY.txt
+          target_commitish: master
+          draft: false
+          prerelease: false
+          tag_name: ${{ env.release_tag }}
