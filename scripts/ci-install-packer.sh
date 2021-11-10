@@ -1,4 +1,5 @@
-#!/bin/bash -e
+#!/usr/bin/env bash
+set -Eeuo pipefail
 
 PACKER_VERSION=1.5.4
 

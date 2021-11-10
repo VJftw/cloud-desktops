@@ -37,15 +37,13 @@ gcloud compute instances create debian-ws \
 ### Debian
 
 ```bash
-cd flavours/debian
-packer build -var 'gcp_project_id=my-project' xfce4.json
+GCP_PROJECT_ID="my-project" scripts/build.sh debian/xfce4
 ```
 
 ### Kali Linux
 
 ```bash
-cd flavours/debian/kali
-packer build -var 'gcp_project_id=my-project' xfce4.json
+GCP_PROJECT_ID="my-project" scripts/build.sh debian/kali/xfce4
 ```
 
 Kali Linux takes some time to build as it is based off Debian and replaces the Debian's sources with Kali's sources and thus replaces a lot of the existing packages.

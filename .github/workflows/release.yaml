@@ -31,6 +31,8 @@ jobs:
 
       - name: run packer build
         run: scripts/build.sh "${{ matrix.flavour }}"
+        env:
+          GCP_PROJECT_ID: vjftw-images
 
   publish:
     needs: build
@@ -47,6 +49,8 @@ jobs:
 
       - name: Generate Changelog
         run: ./scripts/release-body.sh ${{ github.workspace }}-RELEASE_BODY.txt
+        env:
+          GCP_PROJECT_ID: vjftw-images
 
       - name: Compute the release tag
         run: |

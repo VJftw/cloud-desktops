@@ -1,8 +1,9 @@
-#!/bin/sh -e
+#!/usr/bin/env bash
+set -Eeuo pipefail
 
 output_file="$1"
 
-gcp_project="vjftw-images"
+gcp_project="${GCP_PROJECT_ID:=}"
 version="$(./scripts/version.sh)"
 
 released_images=$(gcloud compute images list --project="${gcp_project}" \

@@ -1,3 +1,11 @@
-#!/bin/sh -e
+#!/usr/bin/env bash
 
-echo "$(date '+%Y-%m-%d')-$(git rev-parse --short HEAD)"
+set -Eeuo pipefail
+
+if [ "${CI:-false}" == "true" ]; then
+    # CI, therefore real
+    echo "$(date --universal '+%Y-%m-%d')-$(git rev-parse --short HEAD)"
+fi
+
+# testing
+echo "$(date --universal '+%s')-$(git rev-parse --short HEAD)-test"
