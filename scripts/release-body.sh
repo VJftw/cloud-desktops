@@ -8,7 +8,7 @@ version="$(./scripts/version.sh)"
 
 released_images=$(gcloud compute images list --project="${gcp_project}" \
     --format="value(NAME)" \
-    --filter="name=${version}" | awk '{printf "%s\\n", $0}')
+    --filter="name=${version}")
 
 echo "${released_images}" > "${output_file}"
 
