@@ -6,10 +6,10 @@ output_file="$1"
 gcp_project="${GCP_PROJECT_ID:=}"
 version="$(./scripts/version.sh)"
 
-released_images=$(gcloud compute images list --project="${gcp_project}" \
+released_images=($(gcloud compute images list --project="${gcp_project}" \
     --format="value(NAME)" \
-    --filter="name=${version}")
+    --filter="name=${version}"))
 
-echo "${released_images}" > "${output_file}"
+printf "%s\n" "${released_images[@]}" > "${output_file}"
 
 echo "wrote $output_file"
