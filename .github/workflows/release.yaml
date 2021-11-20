@@ -12,16 +12,14 @@ jobs:
       fail-fast: false
       matrix:
         flavour:
-          - debian/xfce4
-          - debian/kali/xfce4
+          - debian:xfce4
+          - debian/kali:xfce4
+
     name: ${{ matrix.flavour }}
     runs-on: ubuntu-latest
     steps:
       - name: check out code
         uses: actions/checkout@v2
-
-      - name: install packer
-        run: scripts/ci-install-packer.sh
 
       - name: Setup GCP credentials
         uses: google-github-actions/setup-gcloud@master
@@ -30,7 +28,17 @@ jobs:
           export_default_credentials: true
 
       - name: run packer build
-        run: scripts/build.sh "${{ matrix.flavour }}"
+        run: ./pleasew run "//flavours/${{ matrix.flavour }}_build"
+        env:
+          GCP_PROJECT_ID: vjftw-images
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: packer-manifest-${{ job.container.id }}
+          path: plz-out/**/packer-manifest.json
+
+      - name: make images public
+        run: ./pleasew run //build:publicise
         env:
           GCP_PROJECT_ID: vjftw-images
 
@@ -47,14 +55,18 @@ jobs:
           service_account_key: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_FILE_contents }}
           export_default_credentials: true
 
-      - name: Generate Changelog
-        run: ./scripts/release-body.sh ${{ github.workspace }}-RELEASE_BODY.txt
+      - uses: actions/download-artifact@v2
+        with:
+          path: plz-out/
+
+      - name: Generate Release body
+        run: ./pleasew run //build:release_body -- ${{ github.workspace }}-RELEASE_BODY.txt
         env:
           GCP_PROJECT_ID: vjftw-images
 
       - name: Compute the release tag
         run: |
-          echo "release_tag=$(./scripts/version.sh)" >> $GITHUB_ENV
+          echo "release_tag=$(./pleasew run //build:version)" >> $GITHUB_ENV
 
       - name: Release
         uses: softprops/action-gh-release@v1

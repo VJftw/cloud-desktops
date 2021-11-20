@@ -22,13 +22,18 @@
   "provisioners": [
     {
       "type": "shell",
-      "script": "chrome-remote-desktop.sh",
+      "script": ":_chrome-remote-desktop",
       "execute_command": "echo 'packer' | sudo -S sh -c '{{ .Vars }} {{ .Path }}'"
     },
     {
       "type": "shell",
-      "script": "xfce4.sh",
+      "script": ":_xfce4",
       "execute_command": "echo 'packer' | sudo -S sh -c '{{ .Vars }} {{ .Path }}'"
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "manifest"
     }
   ]
 }

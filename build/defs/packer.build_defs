@@ -1,0 +1,63 @@
+"""
+"""
+
+PACKER_TOOLCHAIN = CONFIG.get("PACKER_TOOLCHAIN") or "//third_party/binary:packer"
+
+def packer_image(
+    name: str,
+    template: str,
+    deps: list = [],
+    var_files: list = [],
+    dynamic_vars: dict = {},
+    vars: dict = {},
+):
+    dep_replacements=[f"sed -i 's#{dep}#__REPOROOT__/$(out_location {dep})#g' $OUTS" for dep in deps]
+
+    var_file_flags = " ".join([f"-var-file \"\\\$REPOROOT/$(out_location {var_file})\"" for var_file in var_files])
+
+    dynamic_var_flags = []
+    v_bins = []
+    for k in dynamic_vars.keys():
+        v_bin = dynamic_vars[k]
+        v_bins += [v_bin]
+        dynamic_var_flags += [f"-var \"{k}=\\\$(\\\$REPOROOT/$(out_location {v_bin}))\""]
+    dynamic_var_flags_cmd = " ".join(dynamic_var_flags)
+
+    var_flags = []
+    for k in vars.keys():
+        v = vars[k]
+        if v[0] == "$":
+            var_flags += [f"-var \"{k}=\\\{v}\""]
+        else:
+            var_flags += [f"-var \"{k}={v}\""]
+    var_flags_cmd = " ".join(var_flags)
+
+    template = genrule(
+        name = f"_{name}#template",
+        srcs = [template],
+        outs = [f"_{name}#template.json"],
+        data = deps,
+        cmd = "mv $SRCS $OUTS\n" + "\n".join(dep_replacements),
+    )
+
+    return sh_cmd(
+        name = f"{name}_build",
+        shell = "/usr/bin/env bash",
+        cmd = f"""
+set -Eeuo pipefail
+export REPOROOT="\\\$(git rev-parse --show-toplevel)"
+workdir="\\\$REPOROOT/plz-out/packer/$PKG/$NAME"
+rm -rf "\\\$workdir"
+mkdir -p "\\\$workdir"
+cp "\\\$REPOROOT/$(out_location {template})" "\\\$workdir"
+sed -i "s#__REPOROOT__#\\\$REPOROOT#g" "\\\$workdir/$(basename "$(out_location {template})")"
+
+cd "\\\$workdir"
+set -x
+"\\\$REPOROOT/$(out_exe {PACKER_TOOLCHAIN})" build {var_file_flags} {dynamic_var_flags_cmd} {var_flags_cmd} "$(basename "$(out_location {template})")" "\\\$@"
+""",
+        data = [
+            PACKER_TOOLCHAIN,
+            template,
+        ] + deps + v_bins,
+    )

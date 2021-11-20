@@ -23,13 +23,18 @@
   "provisioners": [
     {
       "type": "shell",
-      "script": "../chrome-remote-desktop.sh",
+      "script": "//flavours/debian:_chrome-remote-desktop",
       "execute_command": "echo 'packer' | sudo -S sh -c '{{ .Vars }} {{ .Path }}'"
     },
     {
       "type": "shell",
-      "script": "debian-to-kali.sh",
+      "script": ":_debian-to-kali",
       "execute_command": "echo 'packer' | sudo -S sh -c '{{ .Vars }} {{ .Path }}'"
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "manifest"
     }
   ]
 }
