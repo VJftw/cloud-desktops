@@ -30,3 +30,12 @@ sh_binary(
     ],
     visibility = ["PUBLIC"],
 )
+
+sh_binary(
+    name = "release_readme",
+    main = "release_readme.sh",
+    deps = [
+        "//third_party/binary:jq",
+    ],
+    visibility = ["PUBLIC"],
+)

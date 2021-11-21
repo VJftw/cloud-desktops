@@ -31,7 +31,7 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
-          name: packer-manifest-${{ job.container.id }}
+          name: packer-manifests
           path: plz-out/**/packer-manifest.json
 
       - name: make images public
@@ -73,3 +73,10 @@ jobs:
           draft: false
           prerelease: false
           tag_name: ${{ env.release_tag }}
+
+      - name: Update README
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          ./pleasew run //build:release_readme
+        
