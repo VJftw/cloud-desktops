@@ -1,0 +1,23 @@
+name: Cleanup
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch: {}
+jobs:
+  images:
+    runs-on: ubuntu-latest
+    name: cleanup
+    steps:
+      - name: check out code
+        uses: actions/checkout@v2
+
+      - name: Setup GCP credentials
+        uses: google-github-actions/setup-gcloud@master
+        with: 
+          service_account_key: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_FILE_contents }}
+          export_default_credentials: true
+
+      - name: run cleanup
+        run: ./pleasew run //build:cleanup
+        env:
+          GCP_PROJECT_ID: vjftw-images

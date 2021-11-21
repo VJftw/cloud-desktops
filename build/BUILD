@@ -21,3 +21,12 @@ sh_binary(
     ],
     visibility = ["PUBLIC"],
 )
+
+sh_binary(
+    name = "cleanup",
+    main = "cleanup.sh",
+    deps = [
+        "//third_party/binary:jq",
+    ],
+    visibility = ["PUBLIC"],
+)

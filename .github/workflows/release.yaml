@@ -2,9 +2,6 @@ name: Release
 on:
   schedule:
     - cron: '0 0 * * FRI'
-  push:
-    branches:
-      - master
   workflow_dispatch: {}
 jobs:
   build:
