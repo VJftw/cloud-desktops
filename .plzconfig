@@ -1,2 +1,12 @@
 [please]
-version = 16.14.0
+version = 16.17.1
+
+[buildconfig]
+terraform-default-toolchain = @third_party/repo/org-infra//third_party/terraform:1_1
+terraform-plz-tool = @third_party/repo/org-infra//third_party/defs:terraform_tool
+
+[alias "lint"]
+cmd = run //build/util:_lint_all
+
+[alias "fmt-all"]
+cmd = run //build/util:_fmt_all

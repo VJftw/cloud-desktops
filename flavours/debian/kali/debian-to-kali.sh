@@ -1,4 +1,5 @@
-#!/bin/bash -e
+#!/usr/bin/env bash
+set -Eeuox pipefail
 
 export DEBIAN_FRONTEND=noninteractive
 echo 'DPkg::options { "--force-confdef"; };' >> /etc/apt/apt.conf

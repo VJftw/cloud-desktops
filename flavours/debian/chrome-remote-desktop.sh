@@ -1,4 +1,5 @@
-#!/bin/bash -xe
+#!/usr/bin/env bash
+set -Eeuox pipefail
 
 # Install basic cloud debian tools
 apt-get update

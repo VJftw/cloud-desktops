@@ -8,15 +8,21 @@
       "type": "googlecompute",
       "project_id": "{{user `gcp_project_id`}}",
       "source_image_family": "debian-11",
-      "machine_type": "n2-standard-2",
+      "machine_type": "e2-medium",
       "ssh_username": "packer",
       "image_name": "debian-xfce4-{{user `version_suffix`}}",
-      "zone": "europe-west2-a",
+      "zone": "europe-west1-d",
       "disk_type": "pd-ssd",
       "disable_default_service_account": true,
       "metadata": {
         "enable-oslogin": "false"
-      }
+      },
+      "network": "packer",
+      "subnetwork": "private",
+      "use_internal_ip": true,
+      "omit_external_ip": true,
+      "use_iap": true,
+      "preemptible": true
     }
   ],
   "provisioners": [

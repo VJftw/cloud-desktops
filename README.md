@@ -7,7 +7,7 @@ This repository presents various cloud virtual desktops suitable for shared or s
 
 ## Quick Start
 
-If you'd like to try this out without building your own Packer images and you **trust** me, feel free to use my public images in the `vjftw-images` project and skip to step 3. e.g.
+If you'd like to try this out without building your own Packer images and you **trust** me, feel free to use my public images in the `vjp-cloud-desktops` project and skip to step 3. e.g.
 
 ```
 gcloud compute instances create debian-ws \
@@ -17,7 +17,7 @@ gcloud compute instances create debian-ws \
     --metadata enable-oslogin=true \
     --no-service-account \
     --no-scopes \
-    --image-project vjftw-images \
+    --image-project vjp-cloud-desktops \
     --image debian-xfce4-2021-12-31-48f5af7
 ```
 
