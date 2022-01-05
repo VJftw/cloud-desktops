@@ -69,7 +69,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           body_path: ${{ github.workspace }}-RELEASE_BODY.txt
-          target_commitish: master
+          target_commitish: main
           draft: false
           prerelease: false
           tag_name: ${{ env.release_tag }}

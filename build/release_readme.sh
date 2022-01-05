@@ -28,4 +28,4 @@ sed -i "s/debian-xfce4-.*/${debian_image}/" README.md
 
 git add README.md
 git commit -m "update README to ${debian_image}"
-git push origin master
+git push origin main
