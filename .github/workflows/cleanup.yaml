@@ -30,7 +30,7 @@ jobs:
 
       - name: run cleanup
         run: |-
-          gcloud config set project "${{ matrix.flavour }}"
+          gcloud config set project "${GCP_PROJECT_ID}"
           ./pleasew run //build:cleanup
         env:
           GCP_PROJECT_ID: ${{ matrix.flavour }}
