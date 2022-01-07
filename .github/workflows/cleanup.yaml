@@ -29,6 +29,8 @@ jobs:
           service_account: 'gha-vjftw-cloud-desktops-main@vjp-github-actions.iam.gserviceaccount.com'
 
       - name: run cleanup
-        run: ./pleasew run //build:cleanup
+        run: |-
+          gcloud config set project "${{ matrix.flavour }}"
+          ./pleasew run //build:cleanup
         env:
           GCP_PROJECT_ID: ${{ matrix.flavour }}
