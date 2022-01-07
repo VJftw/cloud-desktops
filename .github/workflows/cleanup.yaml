@@ -7,17 +7,28 @@ jobs:
   images:
     runs-on: ubuntu-latest
     name: cleanup
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    strategy:
+      fail-fast: false
+      matrix:
+        projects:
+          - vjp-cloud-desktops-pr
+          - vjp-cloud-desktops
     steps:
       - name: check out code
         uses: actions/checkout@v2
 
-      - name: Setup GCP credentials
-        uses: google-github-actions/setup-gcloud@master
-        with: 
-          service_account_key: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_FILE_contents }}
-          export_default_credentials: true
+      - id: 'gcp-auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v0'
+        with:
+          create_credentials_file: true
+          workload_identity_provider: 'projects/76410834219/locations/global/workloadIdentityPools/github-actions/providers/github-actions'
+          service_account: 'gha-vjftw-cloud-desktops-main@vjp-github-actions.iam.gserviceaccount.com'
 
       - name: run cleanup
         run: ./pleasew run //build:cleanup
         env:
-          GCP_PROJECT_ID: vjftw-images
+          GCP_PROJECT_ID: ${{ matrix.flavour }}

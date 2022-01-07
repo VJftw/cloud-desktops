@@ -39,3 +39,12 @@ sh_binary(
     ],
     visibility = ["PUBLIC"],
 )
+
+sh_binary(
+    name = "pr_cleanup",
+    main = "pr_cleanup.sh",
+    deps = [
+        "//third_party/binary:jq",
+    ],
+    visibility = ["PUBLIC"],
+)
