@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        projects:
+        project:
           - vjp-cloud-desktops-pr
           - vjp-cloud-desktops
     steps:
@@ -33,4 +33,4 @@ jobs:
           gcloud config set project "${GCP_PROJECT_ID}"
           ./pleasew run //build:cleanup
         env:
-          GCP_PROJECT_ID: ${{ matrix.flavour }}
+          GCP_PROJECT_ID: ${{ matrix.project }}
