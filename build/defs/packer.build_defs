@@ -35,7 +35,7 @@ def packer_image(
     template = genrule(
         name = f"_{name}#template",
         srcs = [template],
-        outs = [f"_{name}#template.json"],
+        outs = [f"{name}.templated.pkr.hcl"],
         data = deps,
         cmd = "mv $SRCS $OUTS\n" + "\n".join(dep_replacements),
     )
@@ -54,6 +54,7 @@ sed -i "s#__REPOROOT__#\\\$REPOROOT#g" "\\\$workdir/$(basename "$(out_location {
 
 cd "\\\$workdir"
 set -x
+"\\\$REPOROOT/$(out_exe {PACKER_TOOLCHAIN})" init .
 "\\\$REPOROOT/$(out_exe {PACKER_TOOLCHAIN})" build {var_file_flags} {dynamic_var_flags_cmd} {var_flags_cmd} "$(basename "$(out_location {template})")" "\\\$@"
 """,
         data = [

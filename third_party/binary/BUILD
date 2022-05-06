@@ -1,5 +1,5 @@
 
-PACKER_VERSION = "1.7.8"
+PACKER_VERSION = "1.8.0"
 
 remote_file(
     name = "packer",
@@ -7,7 +7,7 @@ remote_file(
     extract = True,
     binary = True,
     hashes = [
-        "8a94b84542d21b8785847f4cccc8a6da4c7be5e16d4b1a2d0a5f7ec5532faec0", # linux_amd64
+        "94c5d65386fa8f17e36d3496fbbdf18d3bfab01306aa8000c14656b63070b7c2", # linux_amd64
     ],
     visibility = ["PUBLIC"],
 )
