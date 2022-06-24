@@ -18,7 +18,7 @@ gcloud compute instances create debian-ws \
     --no-service-account \
     --no-scopes \
     --image-project vjp-cloud-desktops \
-    --image debian-xfce4-2022-06-17-3834e7a
+    --image debian-xfce4-2022-06-24-b3ba623
 ```
 
 ## Getting Started
