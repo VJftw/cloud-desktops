@@ -53,6 +53,18 @@ build {
   }
 
   provisioner "shell" {
+    inline = [
+<<EOF
+mkdir -p /etc/profile.d
+cat <<EOT | base64 -d | sudo tee /etc/profile.d/configure-chrome-remote-desktop.sh
+${base64encode(file(":_configure-chrome-remote-desktop"))}
+EOT
+sudo chmod +x /etc/profile.d/configure-chrome-remote-desktop.sh
+EOF
+    ]
+  }
+
+  provisioner "shell" {
     execute_command = "echo 'packer' | sudo -S sh -c '{{ .Vars }} {{ .Path }}'"
     script = ":_xfce4"
   }

@@ -7,6 +7,7 @@ packer_image(
         ":_base",
         ":_xfce4",
         ":_chrome-remote-desktop",
+        ":_configure-chrome-remote-desktop",
     ],
     dynamic_vars = {
         "version_suffix": "//build:version",
@@ -30,5 +31,11 @@ export_file(
 export_file(
     name = "_base",
     src = "base.sh",
+    visibility = ["//flavours/arch/..."],
+)
+
+export_file(
+    name = "_configure-chrome-remote-desktop",
+    src = "configure-chrome-remote-desktop.sh",
     visibility = ["//flavours/arch/..."],
 )
