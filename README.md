@@ -52,6 +52,7 @@ gcloud compute instances create arch-ws \
     --no-scopes \
     --image-project vjp-cloud-desktops \
     --image "$ARCH_IMAGE"
+
 ```
 
 ## Getting Started
