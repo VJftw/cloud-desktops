@@ -9,7 +9,10 @@ This repository presents various cloud virtual desktops suitable for shared or s
 
 If you'd like to try this out without building your own Packer images and you **trust** me, feel free to use my public images in the `vjp-cloud-desktops` project and skip to step 3. e.g.
 
-```
+### Debian Linux w/ XFCE4
+
+```bash
+DEBIAN_IMAGE="debian-xfce4-2022-06-24-b3ba623"
 gcloud compute instances create debian-ws \
     --machine-type=e2-standard-2 \
     --boot-disk-size=50GB \
@@ -18,7 +21,38 @@ gcloud compute instances create debian-ws \
     --no-service-account \
     --no-scopes \
     --image-project vjp-cloud-desktops \
-    --image debian-xfce4-2022-07-01-3e5a379
+    --image "$DEBIAN_IMAGE"
+```
+
+### Kali Linux w/ XFCE4
+
+```bash
+KALI_IMAGE="kali-xfce4-2022-06-24-b3ba623"
+gcloud compute instances create kali-ws \
+    --machine-type=e2-standard-2 \
+    --boot-disk-size=50GB \
+    --boot-disk-type=pd-ssd \
+    --metadata enable-oslogin=true \
+    --no-service-account \
+    --no-scopes \
+    --image-project vjp-cloud-desktops \
+    --image "$KALI_IMAGE"
+```
+
+### Arch Linux w/ XFCE4
+
+```bash
+ARCH_IMAGE=""
+gcloud compute instances create arch-ws \
+    --machine-type=e2-standard-2 \
+    --boot-disk-size=50GB \
+    --boot-disk-type=pd-ssd \
+    --metadata enable-oslogin=true \
+    --no-service-account \
+    --no-scopes \
+    --image-project vjp-cloud-desktops \
+    --image "$ARCH_IMAGE"
+
 ```
 
 ## Getting Started

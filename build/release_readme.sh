@@ -4,28 +4,39 @@ set -Eeuo pipefail
 
 JQ="$(dirname $0)/third_party/binary/jq"
 
-packer_manifests=($(find ./plz-out -name 'packer-manifest.json'))
+packer_manifests=($(find ./plz-out -name 'manifest.json'))
 
-debian_image=""
-for packer_manifest in "${packer_manifests[@]}"; do
-    printf "inspecting packer manifest '%s'\n" "${packer_manifest}"
-    artifact_id=$($JQ -r '.builds[].artifact_id' "${packer_manifest}")
-    if [[ "${artifact_id}" == *"debian-xfce4"* ]]; then
-        debian_image="${artifact_id}"
-        break
+artifact_ids=()
+
+function replaceImageVariable {
+    local variable_name
+    local image_name
+    variable_name="$1"
+    image_name="$2"
+
+    found_image=""
+    for packer_manifest in "${packer_manifests[@]}"; do
+        printf "inspecting packer manifest '%s'\n" "${packer_manifest}"
+        artifact_id=$($JQ -r '.builds[].artifact_id' "${packer_manifest}")
+        if [[ "${artifact_id}" == *"$image_name"* ]]; then
+            found_image="${artifact_id}"
+            break
+        fi
+    done
+
+    if [ -z "${found_image}" ]; then
+        printf "no image found for $image_name.\n"
+        return
     fi
-done
 
-if [ -z "${debian_image}" ]; then
-    printf "no image found for debian-xfce4, exiting."
-    exit 0
-fi
+    artifact_ids+=("$artifact_id")
+    sed -i "s/$variable_name=.*/$variable_name=\"$artifact_id\"/" README.md
+}
 
-# debian_image="debian-xfce4-2021-11-20-58e5e53"
+replaceImageVariable "DEBIAN_IMAGE" "debian-xfce4"
+replaceImageVariable "KALI_IMAGE" "kali-xfce4"
+replaceImageVariable "ARCH_IMAGE" "arch-xfce4"
 
-# update the debian example in the README.
-sed -i "s/debian-xfce4-.*/${debian_image}/" README.md
-
-git add README.md
-git commit -m "update README to ${debian_image}"
-git push origin main
+# git add README.md
+# git commit -m "update README to ${artifact_ids[*]}"
+# git push origin main

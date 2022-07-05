@@ -41,8 +41,10 @@ jobs:
       fail-fast: false
       matrix:
         flavour:
+          - arch:xfce4
           - debian:xfce4
           - debian/kali:xfce4
+    
     name: ${{ matrix.flavour }}
     steps:
       - name: check out code

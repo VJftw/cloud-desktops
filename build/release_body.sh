@@ -5,7 +5,7 @@ JQ="$(dirname $0)/third_party/binary/jq"
 
 output_file="$1"
 
-packer_manifests=($(find ./plz-out -name 'packer-manifest.json'))
+packer_manifests=($(find ./plz-out -name 'manifest.json'))
 
 artifact_ids=()
 for packer_manifest in "${packer_manifests[@]}"; do

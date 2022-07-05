@@ -2,7 +2,7 @@ subinclude("//build/defs:packer")
 
 packer_image(
     name = "xfce4",
-    template = "xfce4.json",
+    template = "xfce4.pkr.hcl",
     deps = [
         "//flavours/debian:_chrome-remote-desktop",
         ":_debian-to-kali",
