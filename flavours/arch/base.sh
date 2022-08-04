@@ -3,8 +3,12 @@
 # - `pacman -Syu`: Updates arch.
 set -Exeuo pipefail
 
+# Upgrade system keyrings
+pacman -Sy archlinux-keyring --noconfirm
+pacman -Su --noconfirm
+
 # Upgrade system
-sudo pacman -Syu --noconfirm
+pacman -Syu --noconfirm
 
 # Install base packages
 sudo pacman -S --noconfirm \
