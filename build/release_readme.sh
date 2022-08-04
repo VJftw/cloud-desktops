@@ -4,7 +4,7 @@ set -Eeuo pipefail
 
 JQ="$(dirname $0)/third_party/binary/jq"
 
-packer_manifests=($(find ./plz-out -name 'manifest.json'))
+packer_manifests=($(find ./plz-out -name 'packer-manifest.json'))
 
 artifact_ids=()
 
