@@ -16,5 +16,4 @@ dpkg --install google-chrome-stable_current_amd64.deb || apt-get -y -f install
 rm google-chrome-stable_current_amd64.deb
 
 # Update GCE OS Login groups
-google_oslogin_control activate --norestartsshd
 sed -i '/^sshd/ s/$/,chrome-remote-desktop/' /etc/security/group.conf
