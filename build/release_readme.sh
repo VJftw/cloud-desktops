@@ -37,6 +37,6 @@ replaceImageVariable "DEBIAN_IMAGE" "debian-xfce4"
 replaceImageVariable "KALI_IMAGE" "kali-xfce4"
 replaceImageVariable "ARCH_IMAGE" "arch-xfce4"
 
-# git add README.md
-# git commit -m "update README to ${artifact_ids[*]}"
-# git push origin main
+git add README.md
+git commit -m "update README to ${artifact_ids[*]}"
+git push origin main
