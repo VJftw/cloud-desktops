@@ -42,7 +42,7 @@ gcloud compute instances create kali-ws \
 ### Arch Linux w/ XFCE4
 
 ```bash
-ARCH_IMAGE="arch-xfce4-2022-11-25-f0356d2"
+ARCH_IMAGE="arch-xfce4-2022-12-09-f35943a"
 gcloud compute instances create arch-ws \
     --machine-type=e2-standard-2 \
     --boot-disk-size=50GB \
