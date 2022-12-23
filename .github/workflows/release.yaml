@@ -60,6 +60,7 @@ jobs:
         continue-on-error: true
         env:
           GCP_PROJECT_ID: vjp-cloud-desktops
+          PACKER_GITHUB_API_TOKEN: ${{ github.token }}
 
       - uses: actions/upload-artifact@v2
         continue-on-error: true
