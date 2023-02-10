@@ -12,7 +12,7 @@ If you'd like to try this out without building your own Packer images and you **
 ### Debian Linux w/ XFCE4
 
 ```bash
-DEBIAN_IMAGE="debian-xfce4-2023-02-03-f6cd421"
+DEBIAN_IMAGE="debian-xfce4-2023-02-10-c77b632"
 gcloud compute instances create debian-ws \
     --machine-type=e2-standard-2 \
     --boot-disk-size=50GB \
@@ -27,7 +27,7 @@ gcloud compute instances create debian-ws \
 ### Kali Linux w/ XFCE4
 
 ```bash
-KALI_IMAGE="kali-xfce4-2023-02-03-f6cd421"
+KALI_IMAGE="kali-xfce4-2023-02-10-c77b632"
 gcloud compute instances create kali-ws \
     --machine-type=e2-standard-2 \
     --boot-disk-size=50GB \
@@ -42,7 +42,7 @@ gcloud compute instances create kali-ws \
 ### Arch Linux w/ XFCE4
 
 ```bash
-ARCH_IMAGE="arch-xfce4-2023-02-03-f6cd421"
+ARCH_IMAGE="arch-xfce4-2023-02-10-c77b632"
 gcloud compute instances create arch-ws \
     --machine-type=e2-standard-2 \
     --boot-disk-size=50GB \
