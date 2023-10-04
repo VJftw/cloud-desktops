@@ -78,7 +78,7 @@ git fetch --tags --prune --prune-tags
 all_git_tags=($(git tag))
 
 for git_tag in "${all_git_tags[@]}"; do
-    if [[ "${all_github_releases[@]}" != *"${git_tag}"* ]]; then
+    if [[ "${all_github_release_ids[@]}" != *"${git_tag}"* ]]; then
         printf "deleting tag '%s'.\n" "${git_tag}"
         git tag -d "${git_tag}"
         git push --delete origin "${git_tag}"
