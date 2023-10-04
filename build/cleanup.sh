@@ -26,10 +26,28 @@ for csv_instance in "${all_csv_instances[@]}"; do
 
 done
 
-## delete releases older than 6 months
-### TODO
+## only keep last 10 releases
+mapfile -t all_github_release_ids < \
+    <(curl --silent -H "Accept: application/vnd.github.v3+json" "https://api.github.com/repos/${github_repository}/releases" | jq -r '.[] | ( .name + "," + (.id|tostring) )')
 
-all_github_releases=($(curl --silent -H "Accept: application/vnd.github.v3+json" "https://api.github.com/repos/${github_repository}/releases" | jq -r '.[] | ( .name + "," + .body | gsub("[\\n]"; ":") )'))
+mapfile -t releases_to_delete < \
+    <(printf "%s\n" "${all_github_release_ids[@]}" | tail -n +11)
+
+if (( ${#releases_to_delete[@]} )); then
+    printf "deleting ${#releases_to_delete[@]} releases.\n"
+
+
+    for release_id in "${releases_to_delete[@]}"; do
+        release="$(echo "$release_id" | cut -f1 -d",")"
+        id="$(echo "$release_id" | cut -f2 -d",")"
+        curl --silent -L \
+            -X DELETE \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer $GITHUB_TOKEN" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${github_repository}/releases/$id"
+    done
+fi
 
 ## delete images not associated with a release
 
@@ -55,7 +73,7 @@ else
 fi
 
 ## delete tags not associated with a release
-git fetch --tags
+git fetch --tags --prune --prune-tags
 
 all_git_tags=($(git tag))
 

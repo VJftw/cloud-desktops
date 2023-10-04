@@ -1,15 +1,15 @@
 name: Cleanup
 on:
   schedule:
-    - cron: '0 */6 * * *'
+    - cron: "0 */6 * * *"
   workflow_dispatch: {}
 jobs:
   images:
     runs-on: ubuntu-latest
     name: cleanup
     permissions:
-      contents: 'write'
-      id-token: 'write'
+      contents: "write"
+      id-token: "write"
     strategy:
       fail-fast: false
       matrix:
@@ -20,17 +20,18 @@ jobs:
       - name: check out code
         uses: actions/checkout@v2
 
-      - id: 'gcp-auth'
-        name: 'Authenticate to Google Cloud'
-        uses: 'google-github-actions/auth@v0'
+      - id: "gcp-auth"
+        name: "Authenticate to Google Cloud"
+        uses: "google-github-actions/auth@v0"
         with:
           create_credentials_file: true
-          workload_identity_provider: 'projects/76410834219/locations/global/workloadIdentityPools/github-actions/providers/github-actions'
-          service_account: 'gha-vjftw-cloud-desktops-main@vjp-github-actions.iam.gserviceaccount.com'
+          workload_identity_provider: "projects/76410834219/locations/global/workloadIdentityPools/github-actions/providers/github-actions"
+          service_account: "gha-vjftw-cloud-desktops-main@vjp-github-actions.iam.gserviceaccount.com"
 
       - name: run cleanup
         run: |-
           gcloud config set project "${GCP_PROJECT_ID}"
           ./pleasew run //build:cleanup
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GCP_PROJECT_ID: ${{ matrix.project }}
