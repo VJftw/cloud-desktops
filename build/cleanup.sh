@@ -40,15 +40,17 @@ if (( ${#releases_to_delete[@]} )); then
     for release_id in "${releases_to_delete[@]}"; do
         release="$(echo "$release_id" | cut -f1 -d",")"
         id="$(echo "$release_id" | cut -f2 -d",")"
-        curl --silent -L \
-            -X DELETE \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer $GITHUB_TOKEN" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            "https://api.github.com/repos/${github_repository}/releases/$id"
+        echo "DELETE https://api.github.com/repos/${github_repository}/releases/$id"
+        # curl --silent -L \
+        #     -X DELETE \
+        #     -H "Accept: application/vnd.github+json" \
+        #     -H "Authorization: Bearer $GITHUB_TOKEN" \
+        #     -H "X-GitHub-Api-Version: 2022-11-28" \
+        #     "https://api.github.com/repos/${github_repository}/releases/$id"
     done
 fi
 
+exit 1
 ## delete images not associated with a release
 
 all_csv_images=($(gcloud --project "${gcp_project}" compute images list --no-standard-images --format="csv(name, creationTimestamp)" | tail -n+2))

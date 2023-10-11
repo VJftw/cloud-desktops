@@ -10,18 +10,18 @@ jobs:
     name: Terraform
     runs-on: ubuntu-latest
     permissions:
-      contents: 'read'
-      id-token: 'write'
+      contents: "read"
+      id-token: "write"
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      - id: 'gcp-auth'
-        name: 'Authenticate to Google Cloud'
-        uses: 'google-github-actions/auth@v0'
+      - id: "gcp-auth"
+        name: "Authenticate to Google Cloud"
+        uses: "google-github-actions/auth@v0"
         with:
           create_credentials_file: true
-          workload_identity_provider: 'projects/76410834219/locations/global/workloadIdentityPools/github-actions/providers/github-actions'
-          service_account: 'ghapr-vjftw-cloud-desktops@vjp-github-actions.iam.gserviceaccount.com'
+          workload_identity_provider: "projects/76410834219/locations/global/workloadIdentityPools/github-actions/providers/github-actions"
+          service_account: "ghapr-vjftw-cloud-desktops@vjp-github-actions.iam.gserviceaccount.com"
 
       - name: Create infrastructure
         if: success()
@@ -35,8 +35,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: [terraform]
     permissions:
-      contents: 'read'
-      id-token: 'write'
+      contents: "read"
+      id-token: "write"
     strategy:
       fail-fast: false
       matrix:
@@ -48,15 +48,15 @@ jobs:
     name: ${{ matrix.flavour }}
     steps:
       - name: check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - id: 'gcp-auth'
-        name: 'Authenticate to Google Cloud'
-        uses: 'google-github-actions/auth@v0'
+      - id: "gcp-auth"
+        name: "Authenticate to Google Cloud"
+        uses: "google-github-actions/auth@v0"
         with:
           create_credentials_file: true
-          workload_identity_provider: 'projects/76410834219/locations/global/workloadIdentityPools/github-actions/providers/github-actions'
-          service_account: 'ghapr-vjftw-cloud-desktops@vjp-github-actions.iam.gserviceaccount.com'
+          workload_identity_provider: "projects/76410834219/locations/global/workloadIdentityPools/github-actions/providers/github-actions"
+          service_account: "ghapr-vjftw-cloud-desktops@vjp-github-actions.iam.gserviceaccount.com"
 
       - name: run packer build
         run: ./pleasew run "//flavours/${{ matrix.flavour }}_build"
@@ -75,19 +75,19 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     permissions:
-      contents: 'read'
-      id-token: 'write'
+      contents: "read"
+      id-token: "write"
     steps:
       - name: check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - id: 'gcp-auth'
-        name: 'Authenticate to Google Cloud'
-        uses: 'google-github-actions/auth@v0'
+      - id: "gcp-auth"
+        name: "Authenticate to Google Cloud"
+        uses: "google-github-actions/auth@v0"
         with:
           create_credentials_file: true
-          workload_identity_provider: 'projects/76410834219/locations/global/workloadIdentityPools/github-actions/providers/github-actions'
-          service_account: 'ghapr-vjftw-cloud-desktops@vjp-github-actions.iam.gserviceaccount.com'
+          workload_identity_provider: "projects/76410834219/locations/global/workloadIdentityPools/github-actions/providers/github-actions"
+          service_account: "ghapr-vjftw-cloud-desktops@vjp-github-actions.iam.gserviceaccount.com"
 
       - uses: actions/download-artifact@v2
         with:

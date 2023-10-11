@@ -1,25 +1,25 @@
 name: Release
 on:
   schedule:
-    - cron: '0 0 * * FRI'
+    - cron: "0 0 * * FRI"
   workflow_dispatch: {}
 jobs:
   terraform:
     name: Terraform
     runs-on: ubuntu-latest
     permissions:
-      contents: 'read'
-      id-token: 'write'
+      contents: "read"
+      id-token: "write"
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      - id: 'gcp-auth'
-        name: 'Authenticate to Google Cloud'
-        uses: 'google-github-actions/auth@v0'
+      - id: "gcp-auth"
+        name: "Authenticate to Google Cloud"
+        uses: "google-github-actions/auth@v0"
         with:
           create_credentials_file: true
-          workload_identity_provider: 'projects/76410834219/locations/global/workloadIdentityPools/github-actions/providers/github-actions'
-          service_account: 'gha-vjftw-cloud-desktops-main@vjp-github-actions.iam.gserviceaccount.com'
+          workload_identity_provider: "projects/76410834219/locations/global/workloadIdentityPools/github-actions/providers/github-actions"
+          service_account: "gha-vjftw-cloud-desktops-main@vjp-github-actions.iam.gserviceaccount.com"
 
       - name: Create infrastructure
         run: |-
@@ -31,29 +31,29 @@ jobs:
   build:
     needs: [terraform]
     permissions:
-      contents: 'read'
-      id-token: 'write'
+      contents: "read"
+      id-token: "write"
     strategy:
       fail-fast: false
       matrix:
         flavour:
-          - arch:xfce4
+          # - arch:xfce4
           - debian:xfce4
-          - debian/kali:xfce4
+          # - debian/kali:xfce4
 
     name: ${{ matrix.flavour }}
     runs-on: ubuntu-latest
     steps:
       - name: check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - id: 'gcp-auth'
-        name: 'Authenticate to Google Cloud'
-        uses: 'google-github-actions/auth@v0'
+      - id: "gcp-auth"
+        name: "Authenticate to Google Cloud"
+        uses: "google-github-actions/auth@v0"
         with:
           create_credentials_file: true
-          workload_identity_provider: 'projects/76410834219/locations/global/workloadIdentityPools/github-actions/providers/github-actions'
-          service_account: 'gha-vjftw-cloud-desktops-main@vjp-github-actions.iam.gserviceaccount.com'
+          workload_identity_provider: "projects/76410834219/locations/global/workloadIdentityPools/github-actions/providers/github-actions"
+          service_account: "gha-vjftw-cloud-desktops-main@vjp-github-actions.iam.gserviceaccount.com"
 
       - name: run packer build
         run: ./pleasew run "//flavours/${{ matrix.flavour }}_build"
@@ -77,20 +77,20 @@ jobs:
   publish:
     needs: build
     permissions:
-      contents: 'write'
-      id-token: 'write'
+      contents: "write"
+      id-token: "write"
     runs-on: ubuntu-latest
     steps:
       - name: check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - id: 'gcp-auth'
-        name: 'Authenticate to Google Cloud'
-        uses: 'google-github-actions/auth@v0'
+      - id: "gcp-auth"
+        name: "Authenticate to Google Cloud"
+        uses: "google-github-actions/auth@v0"
         with:
           create_credentials_file: true
-          workload_identity_provider: 'projects/76410834219/locations/global/workloadIdentityPools/github-actions/providers/github-actions'
-          service_account: 'gha-vjftw-cloud-desktops-main@vjp-github-actions.iam.gserviceaccount.com'
+          workload_identity_provider: "projects/76410834219/locations/global/workloadIdentityPools/github-actions/providers/github-actions"
+          service_account: "gha-vjftw-cloud-desktops-main@vjp-github-actions.iam.gserviceaccount.com"
 
       - uses: actions/download-artifact@v2
         with:

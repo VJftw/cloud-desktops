@@ -11,14 +11,14 @@ apt-get install -y dirmngr
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys ED444FF07D8D0BF6
 
 # Use Kali repositories
-cat <<EOF > /etc/apt/sources.list
+cat <<EOF >> /etc/apt/sources.list
 deb http://http.kali.org/kali kali-rolling main non-free contrib
 # deb-src http://http.kali.org/kali kali-rolling main non-free contrib
 EOF
 
 # Update and install base packages
 apt-get update
-apt-get -y upgrade
+apt-get -y full-upgrade
 apt-get -y dist-upgrade
 apt-get -y autoremove --purge
 apt-get -y install kali-linux-core
