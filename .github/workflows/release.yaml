@@ -37,9 +37,9 @@ jobs:
       fail-fast: false
       matrix:
         flavour:
-          # - arch:xfce4
+          - arch:xfce4
           - debian:xfce4
-          # - debian/kali:xfce4
+          - debian/kali:xfce4
 
     name: ${{ matrix.flavour }}
     runs-on: ubuntu-latest

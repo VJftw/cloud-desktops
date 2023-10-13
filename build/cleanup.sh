@@ -27,30 +27,36 @@ for csv_instance in "${all_csv_instances[@]}"; do
 done
 
 ## only keep last 10 releases
-mapfile -t all_github_release_ids < \
-    <(curl --silent -H "Accept: application/vnd.github.v3+json" "https://api.github.com/repos/${github_repository}/releases" | jq -r '.[] | ( .name + "," + (.id|tostring) )')
+mapfile -t all_github_releases < \
+    <(
+        curl --silent -H "Accept: application/vnd.github.v3+json" "https://api.github.com/repos/${github_repository}/releases" \
+        | jq -r '.[] | ( (.id|tostring) + "," + .name + "," + .body | gsub("[\\n]"; ":") )' \
+        | sort -u
+    )
+
+printf "found %d release(s).\n" "${#all_github_releases[@]}"
 
 mapfile -t releases_to_delete < \
-    <(printf "%s\n" "${all_github_release_ids[@]}" | tail -n +11)
+    <(printf "%s\n" "${all_github_releases[@]}" | tail -n +10)
 
 if (( ${#releases_to_delete[@]} )); then
     printf "deleting ${#releases_to_delete[@]} releases.\n"
 
 
-    for release_id in "${releases_to_delete[@]}"; do
-        release="$(echo "$release_id" | cut -f1 -d",")"
-        id="$(echo "$release_id" | cut -f2 -d",")"
+    for id_release_body in "${releases_to_delete[@]}"; do
+        id="$(echo "$id_release_body" | cut -f1 -d",")"
         echo "DELETE https://api.github.com/repos/${github_repository}/releases/$id"
-        # curl --silent -L \
-        #     -X DELETE \
-        #     -H "Accept: application/vnd.github+json" \
-        #     -H "Authorization: Bearer $GITHUB_TOKEN" \
-        #     -H "X-GitHub-Api-Version: 2022-11-28" \
-        #     "https://api.github.com/repos/${github_repository}/releases/$id"
+        curl --silent -L \
+            -X DELETE \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer $GITHUB_TOKEN" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${github_repository}/releases/$id"
     done
+else
+    echo "no releases to delete"
 fi
 
-exit 1
 ## delete images not associated with a release
 
 all_csv_images=($(gcloud --project "${gcp_project}" compute images list --no-standard-images --format="csv(name, creationTimestamp)" | tail -n+2))
@@ -80,7 +86,7 @@ git fetch --tags --prune --prune-tags
 all_git_tags=($(git tag))
 
 for git_tag in "${all_git_tags[@]}"; do
-    if [[ "${all_github_release_ids[@]}" != *"${git_tag}"* ]]; then
+    if [[ "${all_github_releases[@]}" != *"${git_tag}"* ]]; then
         printf "deleting tag '%s'.\n" "${git_tag}"
         git tag -d "${git_tag}"
         git push --delete origin "${git_tag}"
