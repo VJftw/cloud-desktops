@@ -1,14 +1,13 @@
-
-PACKER_VERSION = "1.8.0"
+PACKER_VERSION = "1.9.4"
 
 remote_file(
     name = "packer",
-    url = f"https://releases.hashicorp.com/packer/{PACKER_VERSION}/packer_{PACKER_VERSION}_{CONFIG.OS}_{CONFIG.ARCH}.zip",
-    extract = True,
     binary = True,
+    extract = True,
     hashes = [
-        "94c5d65386fa8f17e36d3496fbbdf18d3bfab01306aa8000c14656b63070b7c2", # linux_amd64
+        "6cd5269c4245aa8c99e551d1b862460d63fe711c58bec618fade25f8492e80d9",  # linux_amd64
     ],
+    url = f"https://releases.hashicorp.com/packer/{PACKER_VERSION}/packer_{PACKER_VERSION}_{CONFIG.OS}_{CONFIG.ARCH}.zip",
     visibility = ["PUBLIC"],
 )
 
@@ -17,10 +16,10 @@ JQ_VERSION = "1.6"
 remote_file(
     name = "jq",
     out = "jq",
-    url = f"https://github.com/stedolan/jq/releases/download/jq-{JQ_VERSION}/jq-{CONFIG.OS}64",
     binary = True,
-    visibility = ["PUBLIC"],
     hashes = [
-        "af986793a515d500ab2d35f8d2aecd656e764504b789b66d7e1a0b727a124c44", # linux64
-    ]
+        "af986793a515d500ab2d35f8d2aecd656e764504b789b66d7e1a0b727a124c44",  # linux64
+    ],
+    url = f"https://github.com/stedolan/jq/releases/download/jq-{JQ_VERSION}/jq-{CONFIG.OS}64",
+    visibility = ["PUBLIC"],
 )

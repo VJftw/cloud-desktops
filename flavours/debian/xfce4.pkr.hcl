@@ -21,7 +21,7 @@ source "googlecompute" "debian" {
   disable_default_service_account = true
   disk_type                       = "pd-ssd"
   image_name                      = "debian-xfce4-${var.version_suffix}"
-  machine_type                    = "e2-medium"
+  machine_type                    = "e2-standard-4"
   metadata = {
     enable-oslogin = "false"
   }
