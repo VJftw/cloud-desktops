@@ -20,7 +20,7 @@ else
     printf "no images to delete.\n"
 fi
 
-## terminate instances older than 2 hours
+## terminate instances older than 6 hours
 all_csv_instances=($(gcloud --project "${gcp_project}" compute instances list --format="csv(name, creationTimestamp, zone)" | tail -n+2))
 
 for csv_instance in "${all_csv_instances[@]}"; do
@@ -29,7 +29,7 @@ for csv_instance in "${all_csv_instances[@]}"; do
     zone="$(echo "${csv_instance}" | cut -f3 -d,)"
 
     instance_created_normalised="$(date --date="${instance_created}" '+%s')"
-    oldest_accepted_timestamp="$(date --date="-2 hours" '+%s')"
+    oldest_accepted_timestamp="$(date --date="-6 hours" '+%s')"
 
     if [ "${oldest_accepted_timestamp}" -ge "${instance_created_normalised}" ]; then
         # delete this instance
