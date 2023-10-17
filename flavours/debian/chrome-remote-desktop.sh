@@ -6,12 +6,12 @@ apt-get update
 apt-get -y install wget cloud-utils
 
 # Google Chrome Remote Desktop
-wget https://dl.google.com/linux/direct/chrome-remote-desktop_current_amd64.deb
+wget -nv https://dl.google.com/linux/direct/chrome-remote-desktop_current_amd64.deb
 dpkg --install chrome-remote-desktop_current_amd64.deb || apt-get -y -f install
 rm chrome-remote-desktop_current_amd64.deb
 
 # Google Chrome browser
-wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+wget -nv https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 dpkg --install google-chrome-stable_current_amd64.deb || apt-get -y -f install
 rm google-chrome-stable_current_amd64.deb
 

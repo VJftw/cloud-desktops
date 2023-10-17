@@ -21,7 +21,7 @@ source "googlecompute" "kali" {
   disable_default_service_account = true
   disk_type                       = "pd-ssd"
   image_name                      = "kali-xfce4-${var.version_suffix}"
-  machine_type                    = "e2-standard-4"
+  machine_type                    = "e2-standard-8"
   metadata = {
     enable-oslogin = "false"
   }
@@ -30,7 +30,7 @@ source "googlecompute" "kali" {
   omit_external_ip    = true
   preemptible         = true
   project_id          = "${var.gcp_project_id}"
-  source_image_family = "debian-11"
+  source_image_family = "debian-12"
   image_family = "kali"
   ssh_username        = "packer"
   subnetwork          = "private"

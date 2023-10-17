@@ -26,7 +26,7 @@ source "googlecompute" "arch" {
   // c3-standard-4 (cpu quota limit: 8): $0.091864 (spot)
   // e2-standard-4 (cpu quota limit: 8): $0.0555 (spot)
   // e2-standard-4                     : $0.044216 (spot)
-  machine_type                    = "e2-standard-4"
+  machine_type                    = "e2-standard-8"
   metadata = {
     enable-oslogin = "false"
   }
