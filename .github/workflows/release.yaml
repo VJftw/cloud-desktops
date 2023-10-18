@@ -37,7 +37,8 @@ jobs:
       fail-fast: false
       matrix:
         flavour:
-          - arch:xfce4
+          # disable until https://aur.archlinux.org/packages/chrome-remote-desktop is fixed.
+          # - arch:xfce4
           - debian:xfce4
           - debian/kali:xfce4
 
