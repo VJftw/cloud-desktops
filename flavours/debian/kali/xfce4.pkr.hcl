@@ -21,7 +21,7 @@ source "googlecompute" "kali" {
   disable_default_service_account = true
   disk_type                       = "pd-ssd"
   image_name                      = "kali-xfce4-${var.version_suffix}"
-  machine_type                    = "e2-standard-8"
+  machine_type                    = "c2-standard-8"
   metadata = {
     enable-oslogin = "false"
   }
