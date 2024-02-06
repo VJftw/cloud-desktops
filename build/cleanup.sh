@@ -30,7 +30,7 @@ done
 mapfile -t all_github_releases < \
     <(
         curl --silent -H "Accept: application/vnd.github.v3+json" "https://api.github.com/repos/${github_repository}/releases" \
-        | jq -r '.[] | ( (.id|tostring) + "," + .name + "," + .body | gsub("[\\n]"; ":") )' \
+        | jq --exit-status -r '.[] | ( (.id|tostring) + "," + .name + "," + .body | gsub("[\\n]"; ":") )' \
         | sort -u
     )
 
